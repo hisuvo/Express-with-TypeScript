@@ -8,7 +8,10 @@ const app = express();
 
 // parser
 app.use(express.json());
-app.use(express.urlencoded());
+
+app.get("/user", (req, res) => {
+  res.sendFile("./static.ts");
+});
 
 app.listen(process.env.PORT, () =>
   console.log(`server run on port ${process.env.PORT}`)
