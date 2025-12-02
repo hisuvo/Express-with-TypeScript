@@ -1,0 +1,34 @@
+import { Pool } from "pg";
+import config from ".";
+
+export const pool = new Pool({
+  connectionString: config.connection_string,
+});
+
+export const initDB = async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    role VARCHAR(50) DEFAULT 'user',
+    email VARCHAR(150) NOT NULL,
+    password TEXT NOT NULL,
+    age INT,
+    phone VARCHAR(15),
+    address TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+    )
+    `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS projects(
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    stack VARCHAR(150) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+    )
+    `);
+};
