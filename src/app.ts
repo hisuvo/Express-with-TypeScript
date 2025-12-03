@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { userRouter } from "./modules/users/user.routes";
 import { initDB } from "./config/portfolioDB";
+import { authRouter } from "./modules/auth/auth.routes";
 
 const app = express();
 
@@ -18,8 +19,11 @@ app.get("/", (req, res) => {
   });
 });
 
-// todo: User Crud
+//* User Crud
 app.use("/users", userRouter);
+
+// todos Auth CRUD
+app.use("/auth", authRouter);
 
 // Route: 404 error
 app.use((req: Request, res: Response) => {
